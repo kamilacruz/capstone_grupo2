@@ -14,10 +14,10 @@ Este repositorio contiene el desarrollo del modelo de optimización de precios y
 
 ### Institución
 
-Departamento de Ingeniería Industrial y de Sistemas
-Pontificia Universidad Católica de Chile
-Curso: ICS2122 - Taller de Investigación Operativa (Capstone)
-Profesor(a): Jorge Rafael Vera Andreo
+- Departamento de Ingeniería Industrial y de Sistemas
+- Pontificia Universidad Católica de Chile
+- Curso: ICS2122 - Taller de Investigación Operativa (Capstone)
+- Profesor(a): Jorge Rafael Vera Andreo
 
 ### Archivos principales
 
