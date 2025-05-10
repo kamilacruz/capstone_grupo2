@@ -1,4 +1,4 @@
-## Optimización Dinámica de Inventario y Precios
+## Proyecto Capstone G2
 
 Este repositorio contiene el desarrollo del modelo de optimización de precios y gestión de inventario en un contexto de retail multitienda y multiproducto. 
 
