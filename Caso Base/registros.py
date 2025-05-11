@@ -2,6 +2,7 @@ import os
 import math
 import time
 import random
+import numpy as np
 import pandas as pd
 import parametros as prm
 
@@ -112,8 +113,8 @@ class DataFrame:
         for producto in self.df:
             demanda = self.df[producto]["Demanda"].mean()
             desv_est = self.df[producto]["Demanda"].std()
-            inventario_inicial = round(demanda + desv_est, 0)
-            pedido_semanal = round(demanda * prm.PROPORCION, 0)
+            inventario_inicial = round((demanda + desv_est) * prm.PROPORCION_INICIAL, 0)
+            pedido_semanal = round(demanda * prm.PROPORCION_PEDIDO, 0)
             dict_pedidos[producto] = (inventario_inicial, pedido_semanal)
         return dict_pedidos
     
@@ -204,6 +205,8 @@ class DataFrame:
         return texto
 
 # Generador de demanda
+# Corresponde a una instancia según la distribución ajustada de cada producto en cada tienda
+# Se toma el entero superior al valor demandado, para que sea un valor entero
 def demandado(demanda):
     demandado = {"1": 0,
                  "2": 0,
@@ -217,13 +220,16 @@ def demandado(demanda):
                  "10": 0
                  }
     for producto in demandado:
-        demandado[producto] = random.randint(demanda[producto][0], demanda[producto][1])
+        if producto != "9" and producto != "10":
+            demandado[producto] = np.random.normal(demanda[producto][0], demanda[producto][1])
+        else:
+            demandado[producto] = np.random.weibull(demanda[producto][0]) * demanda[producto][1]
+        demandado[producto] = math.ceil(demandado[producto])
     return demandado
 
 
 
 # Ejecución del problema del caso base
-# TODO: Actualmente la demanda es solo un rando entre un intervalo del promedio +- desv. est.
 # TODO: Que solo cobre en la semana t y que el inventario se cargue en la t+1.
 # De momento se cobra y carga al final de la semana t
 

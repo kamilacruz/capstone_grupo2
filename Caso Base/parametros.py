@@ -1,4 +1,3 @@
-# Datos
 ARCHIVO = 'Tiendas.xlsx'
 HOJA = 'Tiendas'
 PRECIOS_T1 = 'Precios_T1.txt'
@@ -48,7 +47,8 @@ for producto in C_INV:
 CAPACIDAD_T1 = 175000
 CAPACIDAD_T2 = 163000
 # Para determinar cuántas veces la media pedir
-PROPORCION = 1
+PROPORCION_PEDIDO = 1
+PROPORCION_INICIAL = 1
 
 # Operación
 # Cambia mucho las semanas de inicio y final que se eligen para el resultado
@@ -56,27 +56,27 @@ PROPORCION = 1
 T_INICIO = 10
 T_FINAL = 20
 
-# Demanda fija TODO: cambiar después
-DEMANDA_T1 = {"1": (1600, 3300),
-              "2": (3500, 8500),
-              "3": (4500, 5500),
-              "4": (1200, 2100),
-              "5": (6500, 12000),
-              "6": (1600, 3200),
-              "7": (3500, 6500),
-              "8": (2700, 5500),
-              "9": (3000, 6000),
-              "10": (5000, 10000)
+# Demanda es una instancia de la distribución a la que se ajusta cada producto de cada tienda
+DEMANDA_T1 = {"1": (2383.17, 778.05),
+              "2": (6254.16, 1878.55),
+              "3": (3945.55, 1360.32),
+              "4": (1647.19, 429.46),
+              "5": (8653.99, 3251.91),
+              "6": (2454.59, 733.34),
+              "7": (4828.2, 1452.01),
+              "8": (3522.1, 1244.45),
+              "9": (3.21, 4868.81),
+              "10": (3.1, 8327.46)
               }
 
-DEMANDA_T2 = {"1": (2000, 4000),
-              "2": (5000, 10000),
-              "3": (2500, 5000),
-              "4": (1000, 2000),
-              "5": (5500, 9500),
-              "6": (1600, 3200),
-              "7": (4000, 7500),
-              "8": (2500, 5000),
-              "9": (3000, 5800),
-              "10": (7000, 12500)
+DEMANDA_T2 = {"1": (2947.03, 893.03),
+              "2": (7401.28, 2162.27),
+              "3": (3616.79, 1145.49),
+              "4": (1273.27, 341.28),
+              "5": (7033.34, 2161.95),
+              "6": (2335.03, 691.55),
+              "7": (5498.86, 1606.57),
+              "8": (3402.73, 1258.09),
+              "9": (3.64, 4649.04),
+              "10": (3.01, 10694.94)
               }
