@@ -93,6 +93,7 @@ class DataFrame:
         self.utilidad = 0
         self.precios = precios
         self.acumulado_insatisfecha = 0
+        self.acumulado_demanda = 0
 
     # Determina el EOQ del producto
     def eoq(self):
@@ -168,6 +169,7 @@ class DataFrame:
             self.inventario[producto] -= venta
             self.ocupacion_inventario -= venta
             ingreso += venta * self.precios[producto][semana - 1][1]
+            self.acumulado_demanda += demanda[producto]
         self.utilidad += ingreso
 
 
@@ -244,14 +246,14 @@ def generar_iteracion():
         semana = t
         demanda_1 = demandado(prm.DEMANDA_T1)
         Tienda1.cobrar_demanda_insatisfecha(semana, demanda_1)
-        Tienda1.vender(semana, demanda_1)
         Tienda1.pagar_inventario()
+        Tienda1.vender(semana, demanda_1)
         Tienda1.pagar_pedido()
         Tienda1.cargar_inventario()
         demanda_2 = demandado(prm.DEMANDA_T2)
         Tienda2.cobrar_demanda_insatisfecha(semana, demanda_2)
-        Tienda2.vender(semana, demanda_2)
         Tienda2.pagar_inventario()
+        Tienda2.vender(semana, demanda_2)
         Tienda2.pagar_pedido()
         Tienda2.cargar_inventario()
     
@@ -259,7 +261,11 @@ def generar_iteracion():
     fin = time.time()
 
     duracion = round(fin - inicio, 3)
-    resumen_t1 = [round(float(Tienda1.utilidad), 2), float(Tienda1.acumulado_insatisfecha)]
-    resumen_t2 = [round(float(Tienda2.utilidad), 2), float(Tienda2.acumulado_insatisfecha)]
+    resumen_t1 = [round(float(Tienda1.utilidad), 2),
+                  float(Tienda1.acumulado_insatisfecha),
+                  float(Tienda1.acumulado_demanda)]
+    resumen_t2 = [round(float(Tienda2.utilidad), 2),
+                  float(Tienda2.acumulado_insatisfecha),
+                  float(Tienda1.acumulado_demanda)]
 
     return [duracion, resumen_t1, resumen_t2]

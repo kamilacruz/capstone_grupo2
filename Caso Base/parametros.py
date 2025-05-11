@@ -53,8 +53,8 @@ PROPORCION = 1
 # Operación
 # Cambia mucho las semanas de inicio y final que se eligen para el resultado
 # Las primeras semanas son las que tienen los precios menores para cada producto
-T_INICIO = 1
-T_FINAL = 10
+T_INICIO = 10
+T_FINAL = 20
 
 # Demanda fija TODO: cambiar después
 DEMANDA_T1 = {"1": (1600, 3300),
