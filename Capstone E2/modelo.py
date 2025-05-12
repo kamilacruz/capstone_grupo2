@@ -11,7 +11,7 @@ def correr_modelo():
     q, p, z, v, inv, di = modelo.obtener_variables()
 
     #parametros 
-    C_PROD, C_FIJO, C_INV, CAPACIDAD_T1, CAPACIDAD_T2, CMO, d = modelo.obtener_parametros()
+    C_PROD, C_FIJO, C_INV, CAPACIDAD_T1, CAPACIDAD_T2, CMO, d, A, B = modelo.obtener_parametros()
 
 
     M = 9999999
@@ -53,7 +53,7 @@ def correr_modelo():
 
 # DEBERÍA PODER AGREGARSE LA RESTRICCIÓN YA QUE YA SE TIENE A d, pero no tenemos A ni B!
     # 9 d = self.A[i, j, t] - self.B[i, j, t] * self.p[i, j, t]
-    #m.addConstrs(d[i, j, t] == A[i, j, t] - B[i, j, t] * p[i, j, t] for i in I_ for j in J_ for t in T_)  
+    m.addConstrs(d[i, j, t] == A[i, j, t] - B[i, j, t] * p[i, j, t] for i in I_ for j in J_ for t in T_)  
 
 
     m.setParam('MIPGap', 0.1) ## achicar este valor

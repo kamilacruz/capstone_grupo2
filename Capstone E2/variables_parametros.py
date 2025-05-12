@@ -75,14 +75,14 @@ class ModeloVariablesParametros:
         
 
 # AQUÍ SE INGRESA LO QUE NOS ENTREGARÍA EL MODELO ML DE A Y B
-        # self.A = {}  # Demanda base
-        # self.B = {}  # Elasticidad
+        self.A = {}  # Demanda base
+        self.B = {}  # Elasticidad
 
-       # for i in self.I_:
-       #     for j in self.J_:
-       #         for t in self.T_:
-       #             self.A[i, j, t] = 120  # o valores reales
-       #             self.B[i, j, t] = 1.2  # o valores reales
+        for i in self.I_:
+            for j in self.J_:
+                for t in self.T_:
+                    self.A[i, j, t] = 400  
+                    self.B[i, j, t] = 1.2  
 
         # Y FALTARÍA ESTO: 
         self.d = {} #DEMANDA ESTIMADA POR ML
@@ -125,7 +125,7 @@ class ModeloVariablesParametros:
         
 
     def obtener_parametros(self):
-        return self.C_PROD, self.C_FIJO, self.C_INV, self.CAPACIDAD_T1, self.CAPACIDAD_T2, self.CMO, self.d #, self.A, self.B
+        return self.C_PROD, self.C_FIJO, self.C_INV, self.CAPACIDAD_T1, self.CAPACIDAD_T2, self.CMO, self.d, self.A, self.B
 
     def obtener_rangos(self):
         return {
