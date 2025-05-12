@@ -1,0 +1,24 @@
+def exportar_resultados_a_df(modelo: ModeloVariablesParametros):
+    q, p, z, v, inv, di = modelo.obtener_variables()
+    I_, J_, T_ = modelo.obtener_rangos().values()
+
+    resultados = []
+    for i in I_:
+        for j in J_:
+            for t in T_:
+                resultados.append({
+                    'Producto': i,
+                    'Tienda': j,
+                    'Semana': t,
+                    'Precio': p[i, j, t].X,
+                    'Pedido': q[i, j, t].X,
+                    'Venta': v[i, j, t].X,
+                    'Inventario': inv[i, j, t].X,
+                    'DemandaInsatisfecha': di[i, j, t].X,
+                    'Activacion': z[i, j, t].X
+                })
+
+    df = pd.DataFrame(resultados)
+    df.to_csv("resultados_modelo.csv", index=False)
+    print("Resultados guardados en resultados_modelo.csv")
+    return df
