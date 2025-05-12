@@ -81,24 +81,24 @@ class ModeloVariablesParametros:
         for i in self.I_:
             for j in self.J_:
                 for t in self.T_:
-                    self.A[i, j, t] = 400  
-                    self.B[i, j, t] = 1.2  
+                    self.A[i, j, t] = 400 ##CAMBIAR ESTE NUMERO  
+                    self.B[i, j, t] = 1.2 ##CAMBIAR ESTE NUMERO
 
         # Y FALTARÍA ESTO: 
         self.d = {} #DEMANDA ESTIMADA POR ML
 
         # TEMPORALMENTE SERÍA EL RANDOOM DE LA DEMANDA DEL CASO BASE
-
-        for j in self.J_:  # tiendas
-            demanda_base = DEMANDA_T1 if j == 1 else DEMANDA_T2
-            for i in self.I_:  # productos
-                media, param = demanda_base[str(i)]
-                for t in range(T_INICIO, T_FINAL + 1):  # semanas relevantes
-                    if i in [9, 10]:
-                        val = np.random.weibull(media) * param
-                    else:
-                        val = np.random.normal(media, param)
-                    self.d[i, j, t] = max(0, math.ceil(val))
+        #
+        #for j in self.J_:  # tiendas
+        #    demanda_base = DEMANDA_T1 if j == 1 else DEMANDA_T2
+        #    for i in self.I_:  # productos
+        #        media, param = demanda_base[str(i)]
+        #        for t in range(T_INICIO, T_FINAL + 1):  # semanas relevantes
+        #            if i in [9, 10]:
+        #                val = np.random.weibull(media) * param
+        #            else:
+        #                val = np.random.normal(media, param)
+        #            self.d[i, j, t] = max(0, math.ceil(val))
 
 
         # d = self.A[i, j, t] - self.B[i, j, t] * self.p[i, j, t] 
