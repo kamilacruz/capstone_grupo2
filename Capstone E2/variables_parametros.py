@@ -9,12 +9,12 @@ class ModeloVariablesParametros:
         #indices, sus conjuntos
         self.I = 10  #productos
         self.J = 2   #tiendas
-        self.T = 4  #horizonte de semanas
+        self.T = 10  #horizonte de semanas
 
         #rangos 
         self.I_ = range(1, self.I + 1)
         self.J_ = range(1, self.J + 1)
-        self.T_ = range(1, self.T + 1)
+        self.T_ = range(T_INICIO, T_FINAL + 1)
 
         # modelo
         self.m = Model("Modelo")
@@ -75,17 +75,32 @@ class ModeloVariablesParametros:
         
 
 # AQUÍ SE INGRESA LO QUE NOS ENTREGARÍA EL MODELO ML DE A Y B
+
+        # Y FALTARÍA ESTO: 
+        self.d = {} #DEMANDA ESTIMADA POR ML
+
+        for j in self.J_:
+            if j == 1:
+                demanda_base = DEMANDA_T1
+            else:
+                demanda_base = DEMANDA_T2
+            for i in self.I_:
+                media, param = demanda_base[str(i)]
+                for t in self.T_:
+                    if i in [9, 10]:
+                        val = np.random.weibull(media) * param
+                    else:
+                        val = np.random.normal(media, param)
+                    self.d[i, j, t] = max(0, math.ceil(val))
+
         self.A = {}  # Demanda base
         self.B = {}  # Elasticidad
 
         for i in self.I_:
             for j in self.J_:
                 for t in self.T_:
-                    self.A[i, j, t] = 400 ##CAMBIAR ESTE NUMERO  
-                    self.B[i, j, t] = 1.2 ##CAMBIAR ESTE NUMERO
-
-        # Y FALTARÍA ESTO: 
-        self.d = {} #DEMANDA ESTIMADA POR ML
+                    self.A[i, j, t] =  50000 ##CAMBIAR ESTE NUMERO  
+                    self.B[i, j, t] = 0.6 ##CAMBIAR ESTE NUMERO
 
         # TEMPORALMENTE SERÍA EL RANDOOM DE LA DEMANDA DEL CASO BASE
         #
