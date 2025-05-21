@@ -1,5 +1,6 @@
 import matplotlib.pyplot as plt
 import pandas as pd
+import random
 import registros
 import parametros as prm
 
@@ -9,7 +10,7 @@ insatisfechas = []
 demandas = []
 proporciones_instatisfecha_demanda = []
 
-iteraciones = 500
+iteraciones = 1000
 for iteracion in range(iteraciones):
     # Generamos la iteración
     registro = registros.generar_iteracion()
