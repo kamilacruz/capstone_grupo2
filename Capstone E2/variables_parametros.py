@@ -76,8 +76,8 @@ class ModeloVariablesParametros:
 
 # AQUÍ SE INGRESA LO QUE NOS ENTREGARÍA EL MODELO ML DE A Y B
 
-        # Y FALTARÍA ESTO: 
         self.d = {} #DEMANDA ESTIMADA POR ML
+        # TEMPORALMENTE SERÍAN INSTANCIAS DE LAS DISTRIBUCIONES
 
         for j in self.J_:
             if j == 1:
@@ -99,7 +99,7 @@ class ModeloVariablesParametros:
         for i in self.I_:
             for j in self.J_:
                 for t in self.T_:
-                    self.A[i, j, t] =  50000 ##CAMBIAR ESTE NUMERO  
+                    self.A[i, j, t] =  15000 ##CAMBIAR ESTE NUMERO  
                     self.B[i, j, t] = 0.6 ##CAMBIAR ESTE NUMERO
 
         # TEMPORALMENTE SERÍA EL RANDOOM DE LA DEMANDA DEL CASO BASE
