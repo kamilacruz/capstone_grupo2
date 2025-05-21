@@ -93,14 +93,69 @@ class ModeloVariablesParametros:
                         val = np.random.normal(media, param)
                     self.d[i, j, t] = max(0, math.ceil(val))
 
+        self.d_estimada = {} #DEMANDA ESTIMADA POR ML
+        # TEMPORALMENTE SERÍAN INSTANCIAS DE LAS DISTRIBUCIONES
+
+        for j in self.J_:
+            if j == 1:
+                demanda_base = DEMANDA_T1
+            else:
+                demanda_base = DEMANDA_T2
+            for i in self.I_:
+                media, param = demanda_base[str(i)]
+                for t in self.T_:
+                    if i in [9, 10]:
+                        val = np.random.weibull(media) * param
+                    else:
+                        val = np.random.normal(media, param)
+                    self.d_estimada[i, j, t] = max(0, math.ceil(val))
+
         self.A = {}  # Demanda base
         self.B = {}  # Elasticidad
 
-        for i in self.I_:
-            for j in self.J_:
-                for t in self.T_:
-                    self.A[i, j, t] =  15000 ##CAMBIAR ESTE NUMERO  
-                    self.B[i, j, t] = 0.6 ##CAMBIAR ESTE NUMERO
+        self.A[1, 1] = 888151.7
+        self.A[2, 1] = 667521.4
+        self.A[3, 1] = 542441.3
+        self.A[4, 1] = 960597.5
+        self.A[5, 1] = 761808.9 # negativo
+        self.A[6, 1] = 1740078.2
+        self.A[7, 1] = 4879387.4
+        self.A[8, 1] = 2147789.5
+        self.A[9, 1] = 753016.5
+        self.A[10, 1] = 2175150.1
+
+        self.A[1, 2] = 333812.7
+        self.A[2, 2] = 1019763.9
+        self.A[3, 2] = 890689.9
+        self.A[4, 2] = 864466.3
+        self.A[5, 2] = 2066230.7
+        self.A[6, 2] = 625947.1
+        self.A[7, 2] = 3479655.7
+        self.A[8, 2] = 1513062.1
+        self.A[9, 2] = 1288595.9
+        self.A[10, 2] = 303188.5 # negativo
+
+        self.B[1, 1] = 39.07
+        self.B[2, 1] = 202.15
+        self.B[3, 1] = 80.03
+        self.B[4, 1] = 9.78495
+        self.B[5, 1] = 276.81
+        self.B[6, 1] = 11.9996
+        self.B[7, 1] = 0.53493 # negativo
+        self.B[8, 1] = 20.8498
+        self.B[9, 1] = 84.984
+        self.B[10, 1] = 224.379
+
+        self.B[1, 2] = 68.286
+        self.B[2, 2] = 261.05
+        self.B[3, 2] = 67.485
+        self.B[4, 2] = 5.493117
+        self.B[5, 2] = 150.736
+        self.B[6, 2] = 25.93
+        self.B[7, 2] = 22.083703
+        self.B[8, 2] = 28.668
+        self.B[9, 2] = 68.267
+        self.B[10, 2] = 420.1689
 
         # TEMPORALMENTE SERÍA EL RANDOOM DE LA DEMANDA DEL CASO BASE
         #
@@ -140,7 +195,7 @@ class ModeloVariablesParametros:
         
 
     def obtener_parametros(self):
-        return self.C_PROD, self.C_FIJO, self.C_INV, self.CAPACIDAD_T1, self.CAPACIDAD_T2, self.CMO, self.d, self.A, self.B
+        return self.C_PROD, self.C_FIJO, self.C_INV, self.CAPACIDAD_T1, self.CAPACIDAD_T2, self.CMO, self.d, self.A, self.B, self.d_estimada
 
     def obtener_rangos(self):
         return {

@@ -12,7 +12,7 @@ def correr_modelo():
     q, p, z, v, inv, di = modelo.obtener_variables()
 
     #parametros 
-    C_PROD, C_FIJO, C_INV, CAPACIDAD_T1, CAPACIDAD_T2, CMO, d, A, B = modelo.obtener_parametros()
+    C_PROD, C_FIJO, C_INV, CAPACIDAD_T1, CAPACIDAD_T2, CMO, d, A, B, d_estimada = modelo.obtener_parametros()
 
 
     M = 175000
@@ -29,7 +29,7 @@ def correr_modelo():
     m.addConstrs(q[i, j, t] <= M * z[i, j, t] for i in I_ for j in J_ for t in T_)
 
     # 2. Pijt >= 1.05(CPi)
-    m.addConstrs(p[i, j, t] >= 1.05 * C_PROD[i] for i in I_ for j in J_ for t in T_)
+    # m.addConstrs(p[i, j, t] >= 1.05 * C_PROD[i] for i in I_ for j in J_ for t in T_)
 
     # 3. No arbitraje Pi1t – Pi2t <= 3.8, Pi2t – Pi1t <= 3.8
     m.addConstrs(p[i, 1, t] - p[i, 2, t] <= 3800 for i in I_ for t in T_)
@@ -55,15 +55,16 @@ def correr_modelo():
 
 # DEBERÍA PODER AGREGARSE LA RESTRICCIÓN YA QUE YA SE TIENE A d, pero no tenemos A ni B!
     # 9 d = self.A[i, j, t] - self.B[i, j, t] * self.p[i, j, t]
-    # m.addConstrs(d[i, j, t] <= A[i, j, t] - B[i, j, t] * p[i, j, t]  for i in I_ for j in J_ for t in T_)  
-    m.addConstrs(p[i, j, t] <= C_PROD[i] * 1.25 for i in I_ for j in J_ for t in T_)
+    m.addConstrs(A[i, j] - B[i, j] * p[i, j, t] >= d_estimada[i, j, t] for i in I_ for j in J_ for t in T_)
+    # m.addConstrs(p[i, j, t] <= C_PROD[i] * 1.25 for i in I_ for j in J_ for t in T_)
 
     m.setParam('MIPGap', 0.01) ## achicar este valor
     m.optimize()
-    print(f"Valor óptimo de la función objetivo: {m.ObjVal}") 
-    if m.status == GRB.OPTIMAL:
-        print(f"Valor óptimo de la función objetivo: {m.ObjVal:.2f}")
-        df_resultados = exportar_resultados_a_df(modelo)
+    #print(f"Valor óptimo de la función objetivo: {m.ObjVal}")
+    #df_resultados = exportar_resultados_a_df(modelo)
+
+    #if m.status == GRB.OPTIMAL:
+    #    print(f"Valor óptimo de la función objetivo: {m.ObjVal:.2f}")
     #    for i in I_:
     #        for j in J_:
     #            for t in T_:
@@ -73,11 +74,9 @@ def correr_modelo():
     #                print(f"  Venta: {v[i,j,t].X:.0f}")
     #                print(f"  Inventario: {inv[i,j,t].X:.0f}")
     #                print(f"  Demanda insatisfecha: {di[i,j,t].X:.0f}")
-    else:
-        print("El modelo no encontró solución óptima.")
-#
-#
-
+    #else:
+    #    print("El modelo no encontró solución óptima.")
+    return m.ObjVal
 
 def exportar_resultados_a_df(modelo: ModeloVariablesParametros):
     q, p, z, v, inv, di = modelo.obtener_variables()
