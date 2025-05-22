@@ -248,7 +248,7 @@ def generar_iteracion():
     Tienda2.cargar_inventario_inicial()
 
     # Se genera la iteración para ambas tiendas 
-    for t in range(prm.T_INICIO, prm.T_FINAL):
+    for t in range(prm.T_INICIO, prm.T_FINAL + 1):
         semana = t
         demanda_1 = demandado(prm.DEMANDA_T1)
         Tienda1.cobrar_demanda_insatisfecha(semana, demanda_1)
