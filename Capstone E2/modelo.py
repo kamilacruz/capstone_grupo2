@@ -12,10 +12,10 @@ def correr_modelo():
     q, p, z, v, inv, di = modelo.obtener_variables()
 
     #parametros 
-    C_PROD, C_FIJO, C_INV, CAPACIDAD_T1, CAPACIDAD_T2, CMO, d, A, B, d_estimada = modelo.obtener_parametros()
+    C_PROD, C_FIJO, C_INV, CAPACIDAD_T1, CAPACIDAD_T2, CMO, d, A, B, d_estimada, proporcion_maxima = modelo.obtener_parametros()
 
 
-    M = 175000
+    M = 1000000
     rangos = modelo.obtener_rangos()
     I_ = rangos['I_']
     J_ = rangos['J_']
@@ -29,7 +29,7 @@ def correr_modelo():
     m.addConstrs(q[i, j, t] <= M * z[i, j, t] for i in I_ for j in J_ for t in T_)
 
     # 2. Pijt >= 1.05(CPi)
-    # m.addConstrs(p[i, j, t] >= 1.05 * C_PROD[i] for i in I_ for j in J_ for t in T_)
+    m.addConstrs(p[i, j, t] >= 1.05 * C_PROD[i] for i in I_ for j in J_ for t in T_)
 
     # 3. No arbitraje Pi1t – Pi2t <= 3.8, Pi2t – Pi1t <= 3.8
     m.addConstrs(p[i, 1, t] - p[i, 2, t] <= 3800 for i in I_ for t in T_)
@@ -55,13 +55,14 @@ def correr_modelo():
 
 # DEBERÍA PODER AGREGARSE LA RESTRICCIÓN YA QUE YA SE TIENE A d, pero no tenemos A ni B!
     # 9 d = self.A[i, j, t] - self.B[i, j, t] * self.p[i, j, t]
-    m.addConstrs(A[i, j] - B[i, j] * p[i, j, t] >= d_estimada[i, j, t] for i in I_ for j in J_ for t in T_)
+    # m.addConstrs(A[i, j] - B[i, j] * p[i, j, t] >= max(d_estimada[i, j, t], (A[i, j] - 1.05 * B[i, j] * C_PROD[i])) for i in I_ for j in J_ for t in T_)
+    m.addConstrs(p[i, j, t] <= max((A[i, j] - d_estimada[i, j, t])/ B[i, j], (proporcion_maxima * C_PROD[i])) for i in I_ for j in J_ for t in T_)
     # m.addConstrs(p[i, j, t] <= C_PROD[i] * 1.25 for i in I_ for j in J_ for t in T_)
 
     m.setParam('MIPGap', 0.01) ## achicar este valor
     m.optimize()
-    #print(f"Valor óptimo de la función objetivo: {m.ObjVal}")
-    #df_resultados = exportar_resultados_a_df(modelo)
+    # print(f"Valor óptimo de la función objetivo: {m.ObjVal}")
+    df_resultados = exportar_resultados_a_df(modelo)
 
     #if m.status == GRB.OPTIMAL:
     #    print(f"Valor óptimo de la función objetivo: {m.ObjVal:.2f}")
@@ -100,6 +101,5 @@ def exportar_resultados_a_df(modelo: ModeloVariablesParametros):
 
     df = pd.DataFrame(resultados)
     df.to_csv("resultados_modelo.csv", index=False)
-    print("Resultados guardados en resultados_modelo.csv")
+    # print("Resultados guardados en resultados_modelo.csv")
     return df
-

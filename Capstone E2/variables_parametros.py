@@ -157,6 +157,8 @@ class ModeloVariablesParametros:
         self.B[9, 2] = 68.267
         self.B[10, 2] = 420.1689
 
+        self.PROPORCION_MAXIMA = 1.051
+
         # TEMPORALMENTE SERÍA EL RANDOOM DE LA DEMANDA DEL CASO BASE
         #
         #for j in self.J_:  # tiendas
@@ -195,7 +197,7 @@ class ModeloVariablesParametros:
         
 
     def obtener_parametros(self):
-        return self.C_PROD, self.C_FIJO, self.C_INV, self.CAPACIDAD_T1, self.CAPACIDAD_T2, self.CMO, self.d, self.A, self.B, self.d_estimada
+        return self.C_PROD, self.C_FIJO, self.C_INV, self.CAPACIDAD_T1, self.CAPACIDAD_T2, self.CMO, self.d, self.A, self.B, self.d_estimada, self.PROPORCION_MAXIMA
 
     def obtener_rangos(self):
         return {
