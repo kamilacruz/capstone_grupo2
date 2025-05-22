@@ -77,7 +77,16 @@ def correr_modelo():
     #                print(f"  Demanda insatisfecha: {di[i,j,t].X:.0f}")
     #else:
     #    print("El modelo no encontró solución óptima.")
-    return m.ObjVal
+    demanda_total = 0
+    insatisfecha_total = 0
+    for i in I_:
+        for j in J_:
+            for t in T_:
+                insatisfecha_total += df_resultados["DemandaInsatisfecha"]
+                demanda_total += df_resultados["DemandaInsatisfecha"] + df_resultados["Venta"]
+    proporcion_insatisfecha = float(insatisfecha_total.sum() / demanda_total.sum())
+
+    return [m.ObjVal, demanda_total.sum(), insatisfecha_total.sum(), proporcion_insatisfecha]
 
 def exportar_resultados_a_df(modelo: ModeloVariablesParametros):
     q, p, z, v, inv, di = modelo.obtener_variables()
