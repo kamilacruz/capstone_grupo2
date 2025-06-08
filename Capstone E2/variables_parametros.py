@@ -9,7 +9,7 @@ class ModeloVariablesParametros:
         #indices, sus conjuntos
         self.I = 10  #productos
         self.J = 2   #tiendas
-        self.T = 10  #horizonte de semanas
+        self.T = 4  #horizonte de semanas
 
         #rangos 
         self.I_ = range(1, self.I + 1)
