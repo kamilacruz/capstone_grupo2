@@ -9,7 +9,7 @@ if __name__ == "__main__":
     utilidades = []
     insatisfechas = []
     proporciones = []
-    iteraciones = 50
+    iteraciones = 500
     for iteracion in range(iteraciones):
         inicio = time.time()
         # Se guardan indicadores

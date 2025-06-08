@@ -57,7 +57,7 @@ def correr_modelo():
 # DEBERÍA PODER AGREGARSE LA RESTRICCIÓN YA QUE YA SE TIENE A d, pero no tenemos A ni B!
     # 9 d = self.A[i, j, t] - self.B[i, j, t] * self.p[i, j, t]
     # m.addConstrs(A[i, j] - B[i, j] * p[i, j, t] >= max(d_estimada[i, j, t], (A[i, j] - 1.05 * B[i, j] * C_PROD[i])) for i in I_ for j in J_ for t in T_)
-    m.addConstrs(p[i, j, t] <= max((A[i, j] - d_estimada[i, j, t])/ B[i, j], (proporcion_maxima * C_PROD[i])) for i in I_ for j in J_ for t in T_)
+    m.addConstrs(p[i, j, t] <= max((A[i, j] - d_estimada[str(f'{i},{j},{t}')])/ B[i, j], (proporcion_maxima * C_PROD[i])) for i in I_ for j in J_ for t in T_)
     # m.addConstrs(p[i, j, t] <= C_PROD[i] * 1.25 for i in I_ for j in J_ for t in T_)
 
     m.setParam('MIPGap', 0.01) ## achicar este valor
