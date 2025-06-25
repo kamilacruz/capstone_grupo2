@@ -2,7 +2,7 @@
 import time
 import pandas as pd
 import matplotlib.pyplot as plt
-from modelo import correr_modelo
+from modelo_2 import correr_modelo
 
 if __name__ == "__main__":
     tiempo = []
@@ -12,10 +12,12 @@ if __name__ == "__main__":
     iteraciones = 500
     for iteracion in range(iteraciones):
         inicio = time.time()
+        # Se guardan indicadores
         valores = correr_modelo()
         utilidades.append(valores[0])
         insatisfechas.append(valores[2])
         proporciones.append(valores[3])
+        # Se calcula el tiempo de ejecución
         fin = time.time()
         tiempo.append(round(fin - inicio, 2))
 

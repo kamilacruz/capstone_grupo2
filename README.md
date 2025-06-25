@@ -23,6 +23,7 @@ Este repositorio contiene el desarrollo del modelo de optimización de precios y
 
 - '': código py de ___
 - 'Precios_e_Inventarios_en_Retail_Grupo_2.pdf': documento explicativo del modelo
+- En la carpeta Capstone E2 se encuentra el código relacionado al modelo en Gurobi. Para correrlo hay que ejecutar main.py desde el directorio de la carpeta 
 
 ### Última actualización
 
