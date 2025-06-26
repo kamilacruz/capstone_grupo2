@@ -2,7 +2,7 @@
 import time
 import pandas as pd
 import matplotlib.pyplot as plt
-from modelo import correr_modelo
+from modelo_2 import correr_modelo
 
 if __name__ == "__main__":
     tiempo = []
