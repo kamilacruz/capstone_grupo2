@@ -125,11 +125,11 @@ class DataFrame:
         for producto in pedidos:
             self.inventario[producto] = pedidos[producto][0]
             self.ocupacion_inventario += pedidos[producto][0]
-            # El inventario inicial se cobra
-            costo_fijo = prm.C_FIJO[producto]
-            costo_variable = pedidos[producto][0] * prm.C_PROD[producto]
-            costo += costo_fijo + costo_variable
-        self.utilidad -= costo
+            # El inventario inicial no se cobra (supuesto de que comienza con algo)
+            # costo_fijo = prm.C_FIJO[producto]
+            # costo_variable = pedidos[producto][0] * prm.C_PROD[producto]
+            #costo += costo_fijo + costo_variable
+        # self.utilidad -= costo
 
     # Carga el inventario semanal, revisando la capacidad
     def cargar_inventario(self):
@@ -228,11 +228,6 @@ def demandado(demanda):
     return demandado
 
 
-
-# Ejecución del problema del caso base
-# TODO: Que solo cobre en la semana t y que el inventario se cargue en la t+1.
-# De momento se cobra y carga al final de la semana t
-
 def generar_iteracion():
 
     # Inicio
@@ -254,14 +249,16 @@ def generar_iteracion():
         Tienda1.cobrar_demanda_insatisfecha(semana, demanda_1)
         Tienda1.pagar_inventario()
         Tienda1.vender(semana, demanda_1)
-        Tienda1.pagar_pedido()
-        Tienda1.cargar_inventario()
+        if t < prm.T_FINAL:
+            Tienda1.pagar_pedido()
+            Tienda1.cargar_inventario()
         demanda_2 = demandado(prm.DEMANDA_T2)
         Tienda2.cobrar_demanda_insatisfecha(semana, demanda_2)
         Tienda2.pagar_inventario()
         Tienda2.vender(semana, demanda_2)
-        Tienda2.pagar_pedido()
-        Tienda2.cargar_inventario()
+        if t < prm.T_FINAL:
+            Tienda2.pagar_pedido()
+            Tienda2.cargar_inventario()
     
     # Fin
     fin = time.time()

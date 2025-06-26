@@ -54,7 +54,7 @@ PROPORCION_INICIAL = 1
 # Cambia mucho las semanas de inicio y final que se eligen para el resultado
 # Las primeras semanas son las que tienen los precios menores para cada producto
 T_INICIO = 10
-T_FINAL = 20
+T_FINAL = 13
 
 # Demanda es una instancia de la distribución a la que se ajusta cada producto de cada tienda
 DEMANDA_T1 = {"1": (2383.17, 778.05),
