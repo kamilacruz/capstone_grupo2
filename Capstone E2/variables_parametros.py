@@ -45,23 +45,14 @@ class ModeloVariablesParametros:
                 10: 530000}
         # Costo de inventario unitario semanal
         self.PROPORCION_INVENTARIO = 0.1
-        #self.C_INV = {1: self.C_PROD[1] * self.PROPORCION_INVENTARIO,
-        #        2: self.C_PROD[2] * self.PROPORCION_INVENTARIO,
-        #        3: self.C_PROD[3] * self.PROPORCION_INVENTARIO,
-        #        4: self.C_PROD[4] * self.PROPORCION_INVENTARIO,
-        #        5: self.C_PROD[5] * self.PROPORCION_INVENTARIO,
-        #        6: self.C_PROD[6] * self.PROPORCION_INVENTARIO,
-        #        7: self.C_PROD[7] * self.PROPORCION_INVENTARIO,
-        #        8: self.C_PROD[8] * self.PROPORCION_INVENTARIO,
-        #        9: self.C_PROD[9] * self.PROPORCION_INVENTARIO,
-        #        10: self.C_PROD[10] * self.PROPORCION_INVENTARIO}
-        # CREO QUE ESTA LÍNEA ES MEJOR PARA LO ANTERIOR, DEBERÍA HACER LO MISMO
+
         self.C_INV = {i: self.C_PROD[i] * self.PROPORCION_INVENTARIO for i in self.I_}
 
         # Límites de inventario
         self.CAPACIDAD_T1 = 175000
         self.CAPACIDAD_T2 = 163000
 
+        # Cantidad mínima de orden x producto
         self.CMO = {1: 300,
                 2: 700,
                 3: 500,
@@ -72,8 +63,7 @@ class ModeloVariablesParametros:
                 8: 450,
                 9: 450,
                 10: 900}
-        
-
+    
 # AQUÍ SE INGRESA LO QUE NOS ENTREGARÍA EL MODELO ML DE A Y B
 
         self.d = {} #DEMANDA ESTIMADA POR ML
