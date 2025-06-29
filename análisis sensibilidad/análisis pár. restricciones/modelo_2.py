@@ -6,17 +6,30 @@ import pandas as pd
 import parametros as prm
 from openpyxl import load_workbook
 
-def correr_modelo():
+def correr_modelo(delta_gamma=0, delta_B1=0, delta_B2=0):
     modelo = ModeloVariablesParametros()
     m = modelo.obtener_modelo()
 
     lim_minutos = 3
-    modelo.setParam('TimeLimit', lim_minutos*60 )  # Límite de tiempo en segundos
+    modelo.m.setParam('TimeLimit', lim_minutos*60 )  # Límite de tiempo en segundos
 
-    #variables ----- ojo con el orden
+    # Aplicar deltas si se especifican
+    if delta_gamma != 0:
+        for k in modelo.gamma:
+            modelo.gamma[k] += delta_gamma
+
+    if delta_B1 != 0:
+        for k in modelo.B1:
+            modelo.B1[k] += delta_B1
+
+    if delta_B2 != 0:
+        for k in modelo.B2:
+            modelo.B2[k] += delta_B2
+
+    # variables ----- ojo con el orden
     q, p, z, v, inv, di, DE = modelo.obtener_variables()
 
-    #parametros 
+    # parametros 
     C_PROD, C_FIJO, C_INV, CAPACIDAD_T1, CAPACIDAD_T2, CMO, d, A, B1, B2, d_estimada, proporcion_maxima = modelo.obtener_parametros()
     gamma = modelo.gamma
 
@@ -86,21 +99,10 @@ def correr_modelo():
     m.addConstrs(inv[i, j, t] == inv[i, j, t-1] - v[i, j, t] + q[i, j, t-1] for i in I_ for j in J_ for t in T_[1:])
     m.addConstrs(inv[i, j, prm.T_INICIO] == 5000 for i in I_ for j in J_)   
 
-# DEBERÍA PODER AGREGARSE LA RESTRICCIÓN YA QUE YA SE TIENE A d, pero no tenemos A ni B!
-    # 10 pijt = Aijt + B1ijt * DEijt + B2ijt * DEijt^2 
-   # m.addConstrs(
-    #p[i, j, t] <= max_(
-     #   A[i, j] + B1[i, j] * DE[i, j, t] + B2[i, j] * DE[i, j, t] * DE[i, j, t],
-      #  proporcion_maxima * C_PROD[i]
-    #)
-    #for i in I_ for j in J_ for t in T_
-    #)
 
-    ## no deja usar max asi que modifico
-    # crea la variable auxiliar (esto va en tu clase de variables)
     p_max = m.addVars(I_, J_, T_, name="p_max")
 
-    # define que sea el máximo
+    # 10. ...
     m.addConstrs(
         (p_max[i, j, t] >= A[i, j] + B1[i, j] * DE[i, j, t] + B2[i, j] * DE[i, j, t] * DE[i, j, t]
         for i in I_ for j in J_ for t in T_),
@@ -176,8 +178,8 @@ def exportar_resultados_a_df(modelo: ModeloVariablesParametros):
 
     df = pd.DataFrame(resultados)
     df.to_csv("resultados_modelo.csv", index=False)
-    # print("Resultados guardados en resultados_modelo.csv")
-    return df
+    return df  # <- esta es la corrección: retornar solo el DataFrame
+
 
 def exportar_a_bbdd(modelo: ModeloVariablesParametros):
     q, p, z, v, inv, di, DE = modelo.obtener_variables()
