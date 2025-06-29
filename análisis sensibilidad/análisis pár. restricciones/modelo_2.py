@@ -10,6 +10,9 @@ def correr_modelo():
     modelo = ModeloVariablesParametros()
     m = modelo.obtener_modelo()
 
+    lim_minutos = 3
+    modelo.setParam('TimeLimit', lim_minutos*60 )  # Límite de tiempo en segundos
+
     #variables ----- ojo con el orden
     q, p, z, v, inv, di, DE = modelo.obtener_variables()
 
